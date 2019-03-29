@@ -9,6 +9,7 @@
         loop
         radius-dot
         easing
+    
       >
         <CarouselItem>
           <div class="demo-carousel">
@@ -277,23 +278,39 @@
   </div>
 </template>
 <script>
+import {mapState,mapGetters,mapActions} from 'vuex'; 
 export default {
   name: "home",
   data() {
-    return {};
+    return {
+      num:5,
+      isnode:false
+    };
   },
   mounted() {
     if(1){
-      this.$store.dispatch('hideFooter')
+      this.$store.dispatch('footerStatus/getNewNum',this.num)
+      // console.log(this.num)
+      this.$store.dispatch('footerStatus/hideFooter')
     }else{
-      this.$store.dispatch('showFooter')
+      this.$store.dispatch('footerStatus/showFooter')
+ 
     }
-
-    console.log(this.$store.state.showFooter)
-
+    console.log(this.a)
+    // console.log(this.$store.state.showFooter)
   },
   computed:{
-  
+  //  ...mapState({  //这里的...是超引用，ES6的语法，意思是state里有多少属性值我可以在这里放多少属性值
+  //        isShow:state=>state.footerStatus.showFooter //注意这些与上面的区别就是state.footerStatus,
+  //                                                     //里面定义的showFooter是指footerStatus.js里state的showFooter
+  //     }),
+          ...mapGetters('footerStatus',{ //footerStatus指的是modules文件夹下的footerStatus.js模块
+         isShow:'isShow', //第一个isShow是我自定义的只要对应template里v-if="isShow"就行，
+         a:"getChangedNum"                //第二个isShow是对应的footerStatus.js里的getters里的isShow
+      })
+  },
+  watch:{
+    
   },
   methods: {
     
